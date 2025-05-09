@@ -1,0 +1,349 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Veiculo {
+    private String modelo;
+    private String fabricante;
+    private int anoFabricacao;
+    private String tipo;
+    private String status;
+
+    public Veiculo(String modelo, String fabricante, int anoFabricacao, String tipo) {
+        this.modelo = modelo;
+        this.fabricante = fabricante;
+        this.anoFabricacao = anoFabricacao;
+        this.tipo = tipo;
+        this.status = "Disponível";
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
+    }
+
+    public int getAnoFabricacao() {
+        return anoFabricacao;
+    }
+
+    public void setAnoFabricacao(int anoFabricacao) {
+        this.anoFabricacao = anoFabricacao;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Modelo: " + modelo + ", Fabricante: " + fabricante + ", Ano: " + anoFabricacao +
+               ", Tipo: " + tipo + ", Status: " + status;
+    }
+}
+
+class Carro extends Veiculo {
+    private int portas;
+
+    public Carro(String modelo, String fabricante, int anoFabricacao, int portas) {
+        super(modelo, fabricante, anoFabricacao, "Carro");
+        this.portas = portas;
+    }
+
+    public int getPortas() {
+        return portas;
+    }
+
+    public void setPortas(int portas) {
+        this.portas = portas;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Portas: " + portas;
+    }
+}
+
+class Moto extends Veiculo {
+    private int cilindradas;
+
+    public Moto(String modelo, String fabricante, int anoFabricacao, int cilindradas) {
+        super(modelo, fabricante, anoFabricacao, "Moto");
+        this.cilindradas = cilindradas;
+    }
+
+    public int getCilindradas() {
+        return cilindradas;
+    }
+
+    public void setCilindradas(int cilindradas) {
+        this.cilindradas = cilindradas;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Cilindradas: " + cilindradas;
+    }
+}
+
+class Cliente {
+    private String nome;
+    private String CPF;
+    private String contato;
+
+    public Cliente(String nome, String CPF, String contato) {
+        this.nome = nome;
+        this.CPF = CPF;
+        this.contato = contato;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
+    }
+
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + nome + ", CPF: " + CPF + ", Contato: " + contato;
+    }
+}
+
+public class Main {
+    private static ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private static ArrayList<Cliente> clientes = new ArrayList<>();
+
+    
+    private static String[] modelosCarro = {"Fusca", "Gol", "Civic", "Corolla", "HB20"};
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("===============================");
+            System.out.println("  SISTEMA DE CONCESSIONÁRIA");
+            System.out.println("===============================");
+            System.out.println("1 - Cadastrar Veículo");
+            System.out.println("2 - Cadastrar Cliente");
+            System.out.println("3 - Editar Veículo");
+            System.out.println("4 - Editar Cliente");
+            System.out.println("5 - Deletar Veículo");
+            System.out.println("6 - Deletar Cliente");
+            System.out.println("7 - Listar Veículos");
+            System.out.println("8 - Listar Clientes");
+            System.out.println("9 - Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpa o buffer
+
+            switch (opcao) {
+                case 1:
+                    cadastrarVeiculo(scanner);
+                    break;
+                case 2:
+                    cadastrarCliente(scanner);
+                    break;
+                case 3:
+                    editarVeiculo(scanner);
+                    break;
+                case 4:
+                    editarCliente(scanner);
+                    break;
+                case 5:
+                    deletarVeiculo(scanner);
+                    break;
+                case 6:
+                    deletarCliente(scanner);
+                    break;
+                case 7:
+                    listarVeiculos();
+                    break;
+                case 8:
+                    listarClientes();
+                    break;
+                case 9:
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (opcao != 9);
+
+        scanner.close();
+    }
+
+    private static void cadastrarVeiculo(Scanner scanner) {
+        System.out.println("Cadastrando veículo...");
+        System.out.print("Informe o fabricante: ");
+        String fabricante = scanner.nextLine();
+        System.out.print("Informe o ano de fabricação: ");
+        int anoFabricacao = scanner.nextInt();
+        scanner.nextLine(); // Limpa o buffer
+
+        
+        System.out.println("Escolha o modelo do carro:");
+        for (int i = 0; i < modelosCarro.length; i++) {
+            System.out.println((i + 1) + " - " + modelosCarro[i]);
+        }
+        System.out.print("Escolha um número para o modelo do carro: ");
+        int modeloEscolhido = scanner.nextInt();
+        scanner.nextLine(); // Limpa o buffer
+
+        if (modeloEscolhido >= 1 && modeloEscolhido <= modelosCarro.length) {
+            String modelo = modelosCarro[modeloEscolhido - 1];
+            System.out.print("Informe o número de portas: ");
+            int portas = scanner.nextInt();
+
+            veiculos.add(new Carro(modelo, fabricante, anoFabricacao, portas));
+            System.out.println("Veículo cadastrado com sucesso!");
+        } else {
+            System.out.println("Modelo inválido!");
+        }
+    }
+
+    private static void cadastrarCliente(Scanner scanner) {
+        System.out.println("Cadastrando cliente...");
+        System.out.print("Informe o nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Informe o CPF: ");
+        String CPF = scanner.nextLine();
+        System.out.print("Informe o contato: ");
+        String contato = scanner.nextLine();
+
+        clientes.add(new Cliente(nome, CPF, contato));
+        System.out.println("Cliente cadastrado com sucesso!");
+    }
+
+    private static void editarVeiculo(Scanner scanner) {
+        System.out.print("Informe o modelo do veículo a ser editado: ");
+        String modelo = scanner.nextLine();
+        Veiculo veiculo = buscarVeiculo(modelo);
+        if (veiculo != null) {
+            System.out.println("Editando veículo...");
+            System.out.print("Informe o novo modelo: ");
+            veiculo.setModelo(scanner.nextLine());
+            System.out.print("Informe o novo fabricante: ");
+            veiculo.setFabricante(scanner.nextLine());
+            System.out.print("Informe o novo ano de fabricação: ");
+            veiculo.setAnoFabricacao(scanner.nextInt());
+            scanner.nextLine(); // Limpa o buffer
+            System.out.print("Informe o novo tipo (Carro/Moto): ");
+            veiculo.setTipo(scanner.nextLine());
+            System.out.println("Veículo atualizado!");
+        } else {
+            System.out.println("Veículo não encontrado.");
+        }
+    }
+
+    private static void editarCliente(Scanner scanner) {
+        System.out.print("Informe o CPF do cliente a ser editado: ");
+        String CPF = scanner.nextLine();
+        Cliente cliente = buscarCliente(CPF);
+        if (cliente != null) {
+            System.out.println("Editando cliente...");
+            System.out.print("Informe o novo nome: ");
+            cliente.setNome(scanner.nextLine());
+            System.out.print("Informe o novo contato: ");
+            cliente.setContato(scanner.nextLine());
+            System.out.println("Cliente atualizado!");
+        } else {
+            System.out.println("Cliente não encontrado.");
+        }
+    }
+
+    private static void deletarVeiculo(Scanner scanner) {
+        System.out.print("Informe o modelo do veículo a ser deletado: ");
+        String modelo = scanner.nextLine();
+        Veiculo veiculo = buscarVeiculo(modelo);
+        if (veiculo != null) {
+            veiculos.remove(veiculo);
+            System.out.println("Veículo deletado com sucesso!");
+        } else {
+            System.out.println("Veículo não encontrado.");
+        }
+    }
+
+    private static void deletarCliente(Scanner scanner) {
+        System.out.print("Informe o CPF do cliente a ser deletado: ");
+        String CPF = scanner.nextLine();
+        Cliente cliente = buscarCliente(CPF);
+        if (cliente != null) {
+            clientes.remove(cliente);
+            System.out.println("Cliente deletado com sucesso!");
+        } else {
+            System.out.println("Cliente não encontrado.");
+        }
+    }
+
+    private static Veiculo buscarVeiculo(String modelo) {
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.getModelo().equalsIgnoreCase(modelo)) {
+                return veiculo;
+            }
+        }
+        return null;
+    }
+
+    private static Cliente buscarCliente(String CPF) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getCPF().equals(CPF)) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+    private static void listarVeiculos() {
+        System.out.println("\nVeículos cadastrados:");
+        for (Veiculo veiculo : veiculos) {
+            System.out.println(veiculo);
+        }
+    }
+
+    private static void listarClientes() {
+        System.out.println("\nClientes cadastrados:");
+        for (Cliente cliente : clientes) {
+            System.out.println(cliente);
+        }
+    }
+}
